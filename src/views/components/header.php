@@ -1,4 +1,5 @@
 <?php
+require_once Helper::getModelsPath('/DB.php');
 require_once Helper::getModelsPath('/user/User.php');
 require_once Helper::getModelsPath('/user/UserDAO.php');
 require_once Helper::getModelsPath('/typeUser/TypeUserDAO.php');
@@ -8,8 +9,10 @@ if (!DB::isOpen()) {
     DB::init();
 }
 
-$typeUserDao = new TypeUserDAO(DB::getConnection());
-$authUserType = $typeUserDao->read(User::getAuthUser()->getTypeUserId());
+if (User::isLoggedIn()) {
+    $typeUserDao = new TypeUserDAO(DB::getConnection());
+    $authUserType = $typeUserDao->read(User::getAuthUser()->getTypeUserId());
+}
 ?>
 
 
